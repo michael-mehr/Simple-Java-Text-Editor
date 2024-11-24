@@ -1,66 +1,72 @@
-# Simple Java Text Editor
+# Simple-Java-Text-Editor
 
-**PH NotePad** is a simple and light **text editor** (notepad) written in Java.
+Possible Names: **ATE (Accidental Text Editor)**, **PH NotePad+/Turbo**
 
-![Programming Java Text Editor](Screenshots/text-editor-writing-icon.svg)
+Link  to repo: https://github.com/michael-mehr/Simple-Java-Text-Editor
 
+Fork of [PH NotePad/Simple Java Text Editor](https://github.com/pH-7/Simple-Java-Text-Editor)
 
-* Search tool (to search text/keywords easily in the code) + highlighting the code found.
+Light weight text editor built in Java
 
-* Find/Replace text/code.
+## Table of Contents
 
-* Auto completion for Java and C++ keywords (files need to be saved as *.java*/*.cpp*). It can be easily expanded to support pretty much any number of languages.
+- Features
+- Installation
+- Screenshots
+- Contributing
+- License
+- Acknowledgments
 
-* Drag and Drop (drag files into the text area and they get loaded).
+## TODO
 
-* Nice image buttons for better UX.
+- [ ] Document Current Project
+- [ ] Create logo/icon?
+- [ ] Acquire new icons for buttons
+- [ ] Write tests
 
+## Features
 
-![Example Java Text Editor](Screenshots/find-replace-word-in-java-text-editor.png)
+### Forked Features
 
+- Search tool
+  - search for text/keywords in file
+  - highlighting found text
+- Find/Replace text
+- Auto completion for Java and C++ keywords (files need to be saved as _.java_/_.cpp_). It can be easily expanded to support pretty much any number of languages.
+- Drag and Drop 
+  - drag files into the text area and they get loaded
+- Image buttons
 
-## AUTHOR
+### New Features
 
-**[Pierre-Henry Soria](http://pierrehenry.be)**
+### Planned Features
 
+- JavaScript support
+- UI Customization
+- New Icons
+- more commands/shortcuts
 
-### Contributors 🏅
+## Installation
 
-* [Achintha Gunasekara](https://github.com/achinthagunasekara)
+Clone the repository:
 
-* [Patrick Slagle](https://github.com/patrick-slagle)
+```bash
+git clone https://github.com/michael-mehr/Simple-Java-Text-Editor.git
+```
 
-* [Marcus Redgrave-Close](https://github.com/marcusjrc)
+## Demo/Usage
 
-* [Ossi Laukkanen](https://github.com/Fitoh)
+There are two options to run the editor:
 
-* [Akashdeep Singh](https://github.com/akashdeepsingh9988)
+1. Double click the `.jar` file
 
-* [xdvrx1](https://github.com/xdvrx1)
+2. Run `java -jar SimpleJavaTextEditor.jar` from the terminal
 
-* [Talha Tariq](https://github.com/TT-talhatariq)
+## License
 
-## CONTACT
+Apache?
 
-* Pierre-Henry Soria: hi [AT] ph7 [D0T] me
+## Acknowledgments
 
-* Achintha Gunasekara: contact [AT] achinthagunasekara [D0T] com
-
-
-## DEMO
-
-Download the Jar file and double click to run
-
-Or run `java -jar SimpleJavaTextEditor.jar` from the command line
-
-You can also generate easily a new jar file with the following command when you are in *src/* directory `jar cmvf ../manifest.mf ../SimpleJavaTextEditor.jar simplejavatexteditor/*.class`
-
-
-### Important
-
-**Icons directory and its files must be present on the path when running the application (so you will have to move "*icons/*" into "*src/*" directory)**
-
-
-## LICENSE
-
-Apache License, Version 2.0 or later; See the license.txt file in the notepad folder.
+- Pierre-Henry Soria (Author) + contributors to his repo
+- Dr. Peter Lars Dordal
