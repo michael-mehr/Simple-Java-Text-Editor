@@ -58,7 +58,7 @@ git clone https://github.com/michael-mehr/Simple-Java-Text-Editor.git
 
 There are two options to run the editor:
 
-1. Double click the `.jar` file
+1. Double click the Jar file `SimpleJavaTextEditor.jar`
 
 2. Run `java -jar SimpleJavaTextEditor.jar` from the terminal
 
