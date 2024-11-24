@@ -68,5 +68,5 @@ Apache?
 
 ## Acknowledgments
 
-- Pierre-Henry Soria (Author) + contributors to his repo
+- Pierre-Henry Soria (Original Author) + contributors to his repo
 - Dr. Peter Lars Dordal
