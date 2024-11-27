@@ -387,8 +387,8 @@ public class UI extends JFrame implements ActionListener {
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             if (edit) {
-                Object[] options = {"Save and exit", "No Save and exit", "Return"};
-                int n = JOptionPane.showOptionDialog(this, "Do you want to save the file ?", "Question",
+                Object[] options = {"Save and exit", "Exit without saving", "Cancel"};
+                int n = JOptionPane.showOptionDialog(this, "Save before exiting?", "Save",
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                 if (n == 0) {// save and exit
                     saveFile();
