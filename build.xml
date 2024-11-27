@@ -70,4 +70,21 @@
     nbproject/build-impl.xml file.
 
     -->
+
+        <!-- Add the icons directory to the source directory -->
+    <property name="src.dir" value="src"/>
+
+    <!-- Ensure the icons directory is copied to the build directory -->
+    <target name="-post-compile">
+        <copy todir="${build.classes.dir}/icons">
+            <fileset dir="${src.dir}/icons"/>
+        </copy>
+    </target>
+
+    <!-- Ensure the icons directory is included in the JAR file -->
+    <target name="-post-jar">
+        <jar destfile="${dist.jar}" basedir="${build.classes.dir}">
+            <fileset dir="${build.classes.dir}/icons" includes="**/*"/>
+        </jar>
+    </target>
 </project>
