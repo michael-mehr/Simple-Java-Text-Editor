@@ -76,3 +76,4 @@ jar cfm SimpleJavaTextEditor.jar manifest.mf -C bin .
 
 - Pierre-Henry Soria (Original Author) + contributors to his repo
 - Dr. Peter Lars Dordal
+- Boxicons
