@@ -113,6 +113,11 @@ public class UI extends JFrame implements ActionListener {
         textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
         textArea.setTabSize(2);
 
+        // Set the colors for the TextArea
+        textArea.setForeground(Color.BLACK);
+        textArea.setBackground(Color.WHITE);
+        textArea.setCaretColor(Color.BLACK);
+
         /* SETTING BY DEFAULT WORD WRAP ENABLED OR TRUE */
         textArea.setLineWrap(true);
 
@@ -331,6 +336,9 @@ public class UI extends JFrame implements ActionListener {
         mainToolbar.add(italicButton);
         mainToolbar.addSeparator();
 
+        // set menu and toolbar colors
+        setMenuAndToolbarColors(Color.LIGHT_GRAY, Color.BLACK);
+
         /**
          * **************** FONT SETTINGS SECTION **********************
          */
@@ -384,6 +392,19 @@ public class UI extends JFrame implements ActionListener {
             }
         });
         //FONT SIZE SETTINGS SECTION END
+    }
+
+    private void setMenuAndToolbarColors(Color background, Color foreground) {
+        menuBar.setBackground(background);
+        menuBar.setForeground(foreground);
+        menuEdit.setBackground(background);
+        menuEdit.setForeground(foreground);
+        menuFind.setBackground(background);
+        menuFind.setForeground(foreground);
+        menuAbout.setBackground(background);
+        menuAbout.setForeground(foreground);
+        mainToolbar.setBackground(background);
+        mainToolbar.setForeground(foreground);
     }
 
     @Override
