@@ -162,17 +162,17 @@ public class UI extends JFrame implements ActionListener {
 
         // New File
         newFile.addActionListener(this);  // Adding an action listener (so we know when it's been clicked).
-        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK)); // Set a keyboard shortcut
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK)); // Set a keyboard shortcut
         menuFile.add(newFile); // Adding the file menu
 
         // Open File
         openFile.addActionListener(this);
-        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menuFile.add(openFile);
 
         // Save File
         saveFile.addActionListener(this);
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menuFile.add(saveFile);
 
         // Close File
@@ -184,7 +184,7 @@ public class UI extends JFrame implements ActionListener {
          * 2) CTRL+F4, which we are
          * about to define now: (this one will appear in the label).
          */
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         close.addActionListener(this);
         menuFile.add(close);
 
@@ -193,12 +193,12 @@ public class UI extends JFrame implements ActionListener {
         selectAll.setText("Select All");
         selectAll.setIcon(selectAllIcon);
         selectAll.setToolTipText("Select All");
-        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));;
         menuEdit.add(selectAll);
 
         // Clear File (Code)
         clearFile.addActionListener(this);
-        clearFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
+        clearFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK));;
         menuEdit.add(clearFile);
 
         // Cut Text
@@ -206,7 +206,7 @@ public class UI extends JFrame implements ActionListener {
         cut.setText("Cut");
         cut.setIcon(cutIcon);
         cut.setToolTipText("Cut");
-        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(cut);
 
         // WordWrap
@@ -216,7 +216,7 @@ public class UI extends JFrame implements ActionListener {
         wordWrap.setToolTipText("Word Wrap");
 
         //Short cut key or key stroke
-        wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+        wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(wordWrap);
 
         /* CODE FOR WORD WRAP OPERATION
@@ -241,7 +241,7 @@ public class UI extends JFrame implements ActionListener {
         copy.setText("Copy");
         copy.setIcon(copyIcon);
         copy.setToolTipText("Copy");
-        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(copy);
 
         // Paste Text
@@ -249,12 +249,12 @@ public class UI extends JFrame implements ActionListener {
         paste.setText("Paste");
         paste.setIcon(pasteIcon);
         paste.setToolTipText("Paste");
-        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(paste);
 
         // Find Word
         quickFind.addActionListener(this);
-        quickFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
+        quickFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));;
         menuFind.add(quickFind);
 
         // About Me
