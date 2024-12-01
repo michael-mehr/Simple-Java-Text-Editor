@@ -2,8 +2,6 @@
 
 Possible Names: **ATE (Accidental Text Editor)**, **PH NotePad+/Turbo**
 
-Link to repo: https://github.com/michael-mehr/Simple-Java-Text-Editor
-
 Fork of [PH NotePad/Simple Java Text Editor](https://github.com/pH-7/Simple-Java-Text-Editor)
 
 Light weight text editor built in Java
