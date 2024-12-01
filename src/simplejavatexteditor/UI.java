@@ -156,7 +156,7 @@ public class UI extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
         // Set Actions:
-        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A),
+        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", Integer.valueOf(KeyEvent.VK_A),
                 textArea);
 
         this.setJMenuBar(menuBar);
@@ -490,9 +490,10 @@ public class UI extends JFrame implements ActionListener {
                 try {
                     File openFile = open.getSelectedFile();
                     setTitle(openFile.getName() + " | " + SimpleJavaTextEditor.NAME);
-                    Scanner scan = new Scanner(new FileReader(openFile.getPath()));
-                    while (scan.hasNext()) {
-                        textArea.append(scan.nextLine() + "\n");
+                    try (Scanner scan = new Scanner(new FileReader(openFile.getPath()))) {
+                        while (scan.hasNext()) {
+                            textArea.append(scan.nextLine() + "\n");
+                        }
                     }
 
                     enableAutoComplete(openFile);
