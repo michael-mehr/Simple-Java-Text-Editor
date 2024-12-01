@@ -53,7 +53,8 @@ public class UI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private final JTextArea textArea;
     private final JMenuBar menuBar;
-    private final JComboBox fontSize, fontType;
+    private final JComboBox<String> fontSize;
+    private final JComboBox<String> fontType;
     private final JMenu menuFile, menuEdit, menuFind, menuAbout;
     private final JMenuItem newFile, openFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
             aboutMe, aboutSoftware, wordWrap;
@@ -329,11 +330,13 @@ public class UI extends JFrame implements ActionListener {
         italicButton.addActionListener(this);
         mainToolbar.add(italicButton);
         mainToolbar.addSeparator();
+
         /**
          * **************** FONT SETTINGS SECTION **********************
          */
+        
         //FONT FAMILY SETTINGS SECTION START
-        fontType = new JComboBox();
+        fontType = new JComboBox<>(new String[]{});
 
         //GETTING ALL AVAILABLE FONT FOMILY NAMES
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
@@ -361,10 +364,10 @@ public class UI extends JFrame implements ActionListener {
 
         //FONT FAMILY SETTINGS SECTION END
         //FONT SIZE SETTINGS START
-        fontSize = new JComboBox();
+        fontSize = new JComboBox<>(new String[]{});
 
         for (int i = 5; i <= 100; i++) {
-            fontSize.addItem(i);
+            fontSize.addItem(String.valueOf(i));
         }
         fontSize.setMaximumSize(new Dimension(70, 30));
         fontSize.setToolTipText("Font Size");
