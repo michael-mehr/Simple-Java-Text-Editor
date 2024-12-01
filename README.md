@@ -19,7 +19,7 @@ Light weight text editor built in Java
 
 - [ ] Document Current Project
 - [ ] Create logo/icon?
-- [ ] Acquire new icons for buttons
+- [X] Acquire new icons for buttons
 - [ ] Write tests
 
 ## Features
