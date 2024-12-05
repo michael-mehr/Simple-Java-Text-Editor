@@ -413,14 +413,26 @@ public class UI extends JFrame implements ActionListener {
     private void setMenuAndToolbarColors(Color background, Color foreground) {
         menuBar.setBackground(background);
         menuBar.setForeground(foreground);
+        menuFile.setBackground(background);
+        menuFile.setForeground(foreground);
         menuEdit.setBackground(background);
         menuEdit.setForeground(foreground);
         menuFind.setBackground(background);
         menuFind.setForeground(foreground);
+        menuCustomize.setBackground(background);
+        menuCustomize.setForeground(foreground);
         menuAbout.setBackground(background);
         menuAbout.setForeground(foreground);
         mainToolbar.setBackground(background);
         mainToolbar.setForeground(foreground);
+
+        // Iterate through toolbar components and set their colors
+        for (Component comp : mainToolbar.getComponents()) {
+            if (comp instanceof JButton) {
+                comp.setBackground(background);
+                comp.setForeground(foreground);
+            }
+        }
     }
 
     @Override
@@ -576,6 +588,21 @@ public class UI extends JFrame implements ActionListener {
         } // About Software
         else if (e.getSource() == aboutSoftware || e.getSource() == aboutButton) {
             new About(this).software();
+        } // Change Background Color
+        else if (e.getSource() == changeBgColor) {
+            // Show color picker dialog for background color
+            Color newBgColor = JColorChooser.showDialog(this, "Choose Background Color", textArea.getBackground());
+            if (newBgColor != null) {
+                setMenuAndToolbarColors(newBgColor, menuBar.getForeground());
+                textArea.setBackground(newBgColor);
+            }
+        } else if (e.getSource() == changeFgColor) {
+            // Show color picker dialog for foreground color
+            Color newFgColor = JColorChooser.showDialog(this, "Choose Foreground Color", textArea.getForeground());
+            if (newFgColor != null) {
+                setMenuAndToolbarColors(menuBar.getBackground(), newFgColor);
+                textArea.setForeground(newFgColor);
+            }
         }
     }
 
