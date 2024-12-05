@@ -2,6 +2,7 @@
 /build/
 /dist/
 *.class
+*.jar
 
 # Mac OS System
 .DS_Store*

@@ -15,13 +15,6 @@ Light weight text editor built in Java
 - License
 - Acknowledgments
 
-## TODO
-
-- [ ] Document Current Project
-- [ ] Create logo/icon?
-- [X] Acquire new icons for buttons
-- [ ] Write tests
-
 ## Features
 
 ### Forked Features
