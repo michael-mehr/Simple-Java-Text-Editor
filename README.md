@@ -25,6 +25,11 @@ jar cfm SimpleJavaTextEditor.jar manifest.mf -C bin .
 java -jar SimpleJavaTextEditor.jar
 ```
 
+## Contributors
+
+- Michael Mehr
+- Caitlin McHale
+
 ## Acknowledgments
 
 - Pierre-Henry Soria (Original Author) + contributors to his repo
