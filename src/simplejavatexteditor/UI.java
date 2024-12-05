@@ -37,20 +37,11 @@
  */
 package simplejavatexteditor;
 
-import java.lang.reflect.Method;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.*;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -59,43 +50,45 @@ import javax.swing.text.DefaultEditorKit;
 
 public class UI extends JFrame implements ActionListener {
 
-    private final String[] dragDropExtensionFilter = {".txt", ".dat", ".log", ".xml", ".mf", ".html"};
-    private static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private final JTextArea textArea;
     private final JMenuBar menuBar;
+    private final JComboBox<String> fontSize;
     private final JComboBox<String> fontType;
-    private final JComboBox<Integer> fontSize;
-    private final JMenu menuFile, menuEdit, menuFind, menuAbout;
+    private final JMenu menuFile, menuEdit, menuFind, menuAbout, menuCustomize;
     private final JMenuItem newFile, openFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
-            aboutMe, aboutSoftware, wordWrap;
+            aboutMe, aboutSoftware, wordWrap, changeBgColor, changeFgColor;
     private final JToolBar mainToolbar;
     JButton newButton, openButton, saveButton, clearButton, quickButton, aboutMeButton, aboutButton, closeButton, boldButton, italicButton;
     private final Action selectAllAction;
 
+    //setup icons - application icon
+    private final ImageIcon appIcon = new ImageIcon(UI.class.getResource("/new-icons/notepad.png"));
+
     //setup icons - Bold and Italic
-    private final ImageIcon boldIcon = new ImageIcon(UI.class.getResource("icons/bold.png"));
-    private final ImageIcon italicIcon = new ImageIcon("icons/italic.png");
+    private final ImageIcon boldIcon = new ImageIcon(UI.class.getResource("/new-icons/bold.png"));
+    private final ImageIcon italicIcon = new ImageIcon(UI.class.getResource("/new-icons/italic.png"));
 
     // setup icons - File Menu
-    private final ImageIcon newIcon = new ImageIcon(UI.class.getResource("icons/new.png"));
-    private final ImageIcon openIcon = new ImageIcon(UI.class.getResource("icons/open.png"));
-    private final ImageIcon saveIcon = new ImageIcon(UI.class.getResource("icons/save.png"));
-    private final ImageIcon closeIcon = new ImageIcon(UI.class.getResource("icons/close.png"));
+    private final ImageIcon newIcon = new ImageIcon(UI.class.getResource("/new-icons/new.png"));
+    private final ImageIcon openIcon = new ImageIcon(UI.class.getResource("/new-icons/open.png"));
+    private final ImageIcon saveIcon = new ImageIcon(UI.class.getResource("/new-icons/save.png"));
+    private final ImageIcon closeIcon = new ImageIcon(UI.class.getResource("/new-icons/exit.png"));
 
     // setup icons - Edit Menu
-    private final ImageIcon clearIcon = new ImageIcon(UI.class.getResource("icons/clear.png"));
-    private final ImageIcon cutIcon = new ImageIcon(UI.class.getResource("icons/cut.png"));
-    private final ImageIcon copyIcon = new ImageIcon(UI.class.getResource("icons/copy.png"));
-    private final ImageIcon pasteIcon = new ImageIcon(UI.class.getResource("icons/paste.png"));
-    private final ImageIcon selectAllIcon = new ImageIcon(UI.class.getResource("icons/selectall.png"));
-    private final ImageIcon wordwrapIcon = new ImageIcon(UI.class.getResource("icons/wordwrap.png"));
+    private final ImageIcon clearIcon = new ImageIcon(UI.class.getResource("/new-icons/brush.png"));
+    private final ImageIcon cutIcon = new ImageIcon(UI.class.getResource("/new-icons/cut.png"));
+    private final ImageIcon copyIcon = new ImageIcon(UI.class.getResource("/new-icons/copy.png"));
+    private final ImageIcon pasteIcon = new ImageIcon(UI.class.getResource("/new-icons/paste.png"));
+    private final ImageIcon selectAllIcon = new ImageIcon(UI.class.getResource("/new-icons/select.png"));
+    private final ImageIcon wordwrapIcon = new ImageIcon(UI.class.getResource("/new-icons/word_wrap.png"));
 
     // setup icons - Search Menu
-    private final ImageIcon searchIcon = new ImageIcon(UI.class.getResource("icons/search.png"));
+    private final ImageIcon searchIcon = new ImageIcon(UI.class.getResource("/new-icons/search.png"));
 
     // setup icons - Help Menu
-    private final ImageIcon aboutMeIcon = new ImageIcon(UI.class.getResource("icons/about_me.png"));
-    private final ImageIcon aboutIcon = new ImageIcon(UI.class.getResource("icons/about.png"));
+    private final ImageIcon aboutMeIcon = new ImageIcon(UI.class.getResource("/new-icons/about_me.png"));
+    private final ImageIcon aboutIcon = new ImageIcon(UI.class.getResource("/new-icons/about.png"));
 
     private SupportedKeywords kw = new SupportedKeywords();
     private HighlightText languageHighlighter = new HighlightText(Color.GRAY);
@@ -104,21 +97,17 @@ public class UI extends JFrame implements ActionListener {
     private boolean edit = false;
 
     public UI() {
-        try {
-            ImageIcon image = new ImageIcon(UI.class.getResource("icons/ste.png"));
-            super.setIconImage(image.getImage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
         // Set the initial size of the window
         setSize(800, 500);
 
         // Set the title of the window
-        setTitle("Untitled | " + SimpleJavaTextEditor.NAME);
+        setTitle("new | " + SimpleJavaTextEditor.NAME);
 
         // Set the default close operation (exit when it gets closed)
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Set a default icon for the window
+        setIconImage(appIcon.getImage());
 
         // center the frame on the monitor
         setLocationRelativeTo(null);
@@ -130,21 +119,16 @@ public class UI extends JFrame implements ActionListener {
         textArea.setFont(new Font("Century Gothic", Font.PLAIN, 12));
         textArea.setTabSize(2);
 
+        // Set the colors for the TextArea
+        textArea.setForeground(Color.BLACK);
+        textArea.setBackground(Color.WHITE);
+        textArea.setCaretColor(Color.BLACK);
+
         /* SETTING BY DEFAULT WORD WRAP ENABLED OR TRUE */
         textArea.setLineWrap(true);
-        DropTarget dropTarget = new DropTarget(textArea, dropTargetListener);
 
         // Set an higlighter to the JTextArea
         textArea.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                setTitle("Untitled | " + SimpleJavaTextEditor.NAME + "     [ Length: " + textArea.getText().length()
-                        + "    Lines: " + (textArea.getText() + "|").split("\n").length
-                        + "    Words: " + textArea.getText().trim().split("\\s+").length + " ]");
-            }
-
-            @Override
             public void keyPressed(KeyEvent ke) {
                 edit = true;
                 languageHighlighter.highLight(textArea, kw.getCppKeywords());
@@ -152,20 +136,18 @@ public class UI extends JFrame implements ActionListener {
             }
         });
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setWrapStyleWord(true);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        // This is why we didn't have to worry about the size of the TextArea!
         getContentPane().setLayout(new BorderLayout()); // the BorderLayout bit makes it fill it automatically
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(scrollPane);
-        getContentPane().add(panel);
+        getContentPane().add(textArea);
 
         // Set the Menus
         menuFile = new JMenu("File");
         menuEdit = new JMenu("Edit");
         menuFind = new JMenu("Search");
+        menuCustomize = new JMenu("Customize");
         menuAbout = new JMenu("About");
-        //Font Settings menu
+
+        // Font Settings menu
 
         // Set the Items Menu
         newFile = new JMenuItem("New", newIcon);
@@ -176,35 +158,37 @@ public class UI extends JFrame implements ActionListener {
         quickFind = new JMenuItem("Quick", searchIcon);
         aboutMe = new JMenuItem("About Me", aboutMeIcon);
         aboutSoftware = new JMenuItem("About Software", aboutIcon);
+        changeBgColor = new JMenuItem("Change Background Color");
+        changeFgColor = new JMenuItem("Change Foreground Color");
 
         menuBar = new JMenuBar();
         menuBar.add(menuFile);
         menuBar.add(menuEdit);
         menuBar.add(menuFind);
-
+        menuBar.add(menuCustomize);
         menuBar.add(menuAbout);
 
         this.setJMenuBar(menuBar);
 
         // Set Actions:
-        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", new Integer(KeyEvent.VK_A),
+        selectAllAction = new SelectAllAction("Select All", clearIcon, "Select all text", Integer.valueOf(KeyEvent.VK_A),
                 textArea);
 
         this.setJMenuBar(menuBar);
 
         // New File
         newFile.addActionListener(this);  // Adding an action listener (so we know when it's been clicked).
-        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK)); // Set a keyboard shortcut
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK)); // Set a keyboard shortcut
         menuFile.add(newFile); // Adding the file menu
 
         // Open File
         openFile.addActionListener(this);
-        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menuFile.add(openFile);
 
         // Save File
         saveFile.addActionListener(this);
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menuFile.add(saveFile);
 
         // Close File
@@ -216,7 +200,7 @@ public class UI extends JFrame implements ActionListener {
          * 2) CTRL+F4, which we are
          * about to define now: (this one will appear in the label).
          */
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         close.addActionListener(this);
         menuFile.add(close);
 
@@ -225,12 +209,12 @@ public class UI extends JFrame implements ActionListener {
         selectAll.setText("Select All");
         selectAll.setIcon(selectAllIcon);
         selectAll.setToolTipText("Select All");
-        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));;
         menuEdit.add(selectAll);
 
         // Clear File (Code)
         clearFile.addActionListener(this);
-        clearFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
+        clearFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK));;
         menuEdit.add(clearFile);
 
         // Cut Text
@@ -238,7 +222,7 @@ public class UI extends JFrame implements ActionListener {
         cut.setText("Cut");
         cut.setIcon(cutIcon);
         cut.setToolTipText("Cut");
-        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(cut);
 
         // WordWrap
@@ -247,8 +231,14 @@ public class UI extends JFrame implements ActionListener {
         wordWrap.setIcon(wordwrapIcon);
         wordWrap.setToolTipText("Word Wrap");
 
+        // Change Background & Foreground Colors
+        changeBgColor.addActionListener(this);
+        changeFgColor.addActionListener(this);
+        menuCustomize.add(changeBgColor);
+        menuCustomize.add(changeFgColor);
+
         //Short cut key or key stroke
-        wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+        wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(wordWrap);
 
         /* CODE FOR WORD WRAP OPERATION
@@ -257,10 +247,14 @@ public class UI extends JFrame implements ActionListener {
         wordWrap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 // If wrapping is false then after clicking on menuitem the word wrapping will be enabled
-                /* Setting word wrapping to true */
-                // else  if wrapping is true then after clicking on menuitem the word wrapping will be disabled
-                /* Setting word wrapping to false */
-                textArea.setLineWrap(!textArea.getLineWrap());
+                if (textArea.getLineWrap() == false) {
+                    /* Setting word wrapping to true */
+                    textArea.setLineWrap(true);
+                } else {
+                    // else  if wrapping is true then after clicking on menuitem the word wrapping will be disabled
+                    /* Setting word wrapping to false */
+                    textArea.setLineWrap(false);
+                }
             }
         });
 
@@ -269,7 +263,7 @@ public class UI extends JFrame implements ActionListener {
         copy.setText("Copy");
         copy.setIcon(copyIcon);
         copy.setToolTipText("Copy");
-        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(copy);
 
         // Paste Text
@@ -277,12 +271,12 @@ public class UI extends JFrame implements ActionListener {
         paste.setText("Paste");
         paste.setIcon(pasteIcon);
         paste.setToolTipText("Paste");
-        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
         menuEdit.add(paste);
 
         // Find Word
         quickFind.addActionListener(this);
-        quickFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
+        quickFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));;
         menuFind.add(quickFind);
 
         // About Me
@@ -357,18 +351,23 @@ public class UI extends JFrame implements ActionListener {
         italicButton.addActionListener(this);
         mainToolbar.add(italicButton);
         mainToolbar.addSeparator();
+
+        // set menu and toolbar colors
+        setMenuAndToolbarColors(Color.LIGHT_GRAY, Color.BLACK);
+
         /**
          * **************** FONT SETTINGS SECTION **********************
          */
+        
         //FONT FAMILY SETTINGS SECTION START
-        fontType = new JComboBox<String>();
+        fontType = new JComboBox<>(new String[]{});
 
         //GETTING ALL AVAILABLE FONT FOMILY NAMES
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
-        for (String font : fonts) {
+        for (int i = 0; i < fonts.length; i++) {
             //Adding font family names to font[] array
-            fontType.addItem(font);
+            fontType.addItem(fonts[i]);
         }
         //Setting maximize size of the fontType ComboBox
         fontType.setMaximumSize(new Dimension(170, 30));
@@ -389,10 +388,10 @@ public class UI extends JFrame implements ActionListener {
 
         //FONT FAMILY SETTINGS SECTION END
         //FONT SIZE SETTINGS START
-        fontSize = new JComboBox<Integer>();
+        fontSize = new JComboBox<>(new String[]{});
 
         for (int i = 5; i <= 100; i++) {
-            fontSize.addItem(i);
+            fontSize.addItem(String.valueOf(i));
         }
         fontSize.setMaximumSize(new Dimension(70, 30));
         fontSize.setToolTipText("Font Size");
@@ -411,12 +410,37 @@ public class UI extends JFrame implements ActionListener {
         //FONT SIZE SETTINGS SECTION END
     }
 
+    private void setMenuAndToolbarColors(Color background, Color foreground) {
+        menuBar.setBackground(background);
+        menuBar.setForeground(foreground);
+        menuFile.setBackground(background);
+        menuFile.setForeground(foreground);
+        menuEdit.setBackground(background);
+        menuEdit.setForeground(foreground);
+        menuFind.setBackground(background);
+        menuFind.setForeground(foreground);
+        menuCustomize.setBackground(background);
+        menuCustomize.setForeground(foreground);
+        menuAbout.setBackground(background);
+        menuAbout.setForeground(foreground);
+        mainToolbar.setBackground(background);
+        mainToolbar.setForeground(foreground);
+
+        // Iterate through toolbar components and set their colors
+        for (Component comp : mainToolbar.getComponents()) {
+            if (comp instanceof JButton) {
+                comp.setBackground(background);
+                comp.setForeground(foreground);
+            }
+        }
+    }
+
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             if (edit) {
-                Object[] options = {"Save and exit", "No Save and exit", "Return"};
-                int n = JOptionPane.showOptionDialog(this, "Do you want to save the file ?", "Question",
+                Object[] options = {"Save and exit", "Exit without saving", "Cancel"};
+                int n = JOptionPane.showOptionDialog(this, "Save before exiting?", "Save",
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                 if (n == 0) {// save and exit
                     saveFile();
@@ -448,20 +472,20 @@ public class UI extends JFrame implements ActionListener {
         for (int i = 0; i < list.length; i++) {
             if (file.getName().endsWith(list[i])) {
                 switch (i) {
-                    case 0 -> {
+                    case 0:
                         String[] jk = kw.getJavaKeywords();
                         arrayList = kw.setKeywords(jk);
                         autocomplete = new AutoComplete(this, arrayList);
                         textArea.getDocument().addDocumentListener(autocomplete);
                         hasListener = true;
-                    }
-                    case 1 -> {
+                        break;
+                    case 1:
                         String[] ck = kw.getCppKeywords();
                         arrayList = kw.setKeywords(ck);
                         autocomplete = new AutoComplete(this, arrayList);
                         textArea.getDocument().addDocumentListener(autocomplete);
                         hasListener = true;
-                    }
+                        break;
                 }
             }
         }
@@ -503,25 +527,22 @@ public class UI extends JFrame implements ActionListener {
         } // If the source was the "open" option
         else if (e.getSource() == openFile || e.getSource() == openButton) {
             JFileChooser open = new JFileChooser(); // open up a file chooser (a dialog for the user to  browse files to open)
-            if( !(textArea.getText().equals("")) ) {
-                saveFile();
-            }
-            // if true does normal operation
             int option = open.showOpenDialog(this); // get the option that the user selected (approve or cancel)
 
             /*
-            * NOTE: because we are OPENing a file, we call showOpenDialog~ if
-            * the user clicked OK, we have "APPROVE_OPTION" so we want to open
-            * the file
-            */
+             * NOTE: because we are OPENing a file, we call showOpenDialog~ if
+             * the user clicked OK, we have "APPROVE_OPTION" so we want to open
+             * the file
+             */
             if (option == JFileChooser.APPROVE_OPTION) {
                 FEdit.clear(textArea); // clear the TextArea before applying the file contents
                 try {
                     File openFile = open.getSelectedFile();
                     setTitle(openFile.getName() + " | " + SimpleJavaTextEditor.NAME);
-                    Scanner scan = new Scanner(new FileReader(openFile.getPath()));
-                    while (scan.hasNext()) {
-                        textArea.append(scan.nextLine() + "\n");
+                    try (Scanner scan = new Scanner(new FileReader(openFile.getPath()))) {
+                        while (scan.hasNext()) {
+                            textArea.append(scan.nextLine() + "\n");
+                        }
                     }
 
                     enableAutoComplete(openFile);
@@ -530,20 +551,19 @@ public class UI extends JFrame implements ActionListener {
                     System.err.println(ex.getMessage());
                 }
             }
-
         } // If the source of the event was the "save" option
         else if (e.getSource() == saveFile || e.getSource() == saveButton) {
             saveFile();
         }// If the source of the event was the "Bold" button
         else if (e.getSource() == boldButton) {
-            if (textArea.getFont().getStyle() == Font.BOLD) {
+            if (textArea.getFont().getStyle() == Font.BOLD){
                 textArea.setFont(textArea.getFont().deriveFont(Font.PLAIN));
             } else {
                 textArea.setFont(textArea.getFont().deriveFont(Font.BOLD));
             }
         }// If the source of the event was the "Italic" button
         else if (e.getSource() == italicButton) {
-            if (textArea.getFont().getStyle() == Font.ITALIC) {
+            if (textArea.getFont().getStyle() == Font.ITALIC){
                 textArea.setFont(textArea.getFont().deriveFont(Font.PLAIN));
             } else {
                 textArea.setFont(textArea.getFont().deriveFont(Font.ITALIC));
@@ -568,6 +588,21 @@ public class UI extends JFrame implements ActionListener {
         } // About Software
         else if (e.getSource() == aboutSoftware || e.getSource() == aboutButton) {
             new About(this).software();
+        } // Change Background Color
+        else if (e.getSource() == changeBgColor) {
+            // Show color picker dialog for background color
+            Color newBgColor = JColorChooser.showDialog(this, "Choose Background Color", textArea.getBackground());
+            if (newBgColor != null) {
+                setMenuAndToolbarColors(newBgColor, menuBar.getForeground());
+                textArea.setBackground(newBgColor);
+            }
+        } else if (e.getSource() == changeFgColor) {
+            // Show color picker dialog for foreground color
+            Color newFgColor = JColorChooser.showDialog(this, "Choose Foreground Color", textArea.getForeground());
+            if (newFgColor != null) {
+                setMenuAndToolbarColors(menuBar.getBackground(), newFgColor);
+                textArea.setForeground(newFgColor);
+            }
         }
     }
 
@@ -616,81 +651,5 @@ public class UI extends JFrame implements ActionListener {
             }
         }
     }
-    DropTargetListener dropTargetListener = new DropTargetListener() {
-
-        @Override
-        public void dragEnter(DropTargetDragEvent e) {
-        }
-
-        @Override
-        public void dragExit(DropTargetEvent e) {
-        }
-
-        @Override
-        public void dragOver(DropTargetDragEvent e) {
-        }
-
-        @Override
-        public void drop(DropTargetDropEvent e) {
-            if (edit) {
-                Object[] options = {"Save", "No Save", "Return"};
-                int n = JOptionPane.showOptionDialog(UI.this, "Do you want to save the file at first ?", "Question",
-                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
-                if (n == 0) {// save
-                    UI.this.saveFile();
-                    edit = false;
-                } else if (n == 1) {
-                    edit = false;
-                    FEdit.clear(textArea);
-                } else if (n == 2) {
-                    e.rejectDrop();
-                    return;
-                }
-            }
-            try {
-                Transferable tr = e.getTransferable();
-                DataFlavor[] flavors = tr.getTransferDataFlavors();
-                for (DataFlavor flavor : flavors) {
-                    if (flavor.isFlavorJavaFileListType()) {
-                        e.acceptDrop(e.getDropAction());
-
-                        try {
-                            String fileName = tr.getTransferData(flavor).toString().replace("[", "").replace("]", "");
-
-                            // Allowed file filter extentions for drag and drop
-                            boolean extensionAllowed = false;
-                            for (String s : dragDropExtensionFilter) {
-                                if (fileName.endsWith(s)) {
-                                    extensionAllowed = true;
-                                    break;
-                                }
-                            }
-                            if (!extensionAllowed) {
-                                JOptionPane.showMessageDialog(UI.this, "This file is not allowed for drag & drop", "Error", JOptionPane.ERROR_MESSAGE);
-
-                            } else {
-                                FileInputStream fis = new FileInputStream(new File(fileName));
-                                byte[] ba = new byte[fis.available()];
-                                fis.read(ba);
-                                textArea.setText(new String(ba));
-                                fis.close();
-                            }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                        e.dropComplete(true);
-                        return;
-                    }
-                }
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-            e.rejectDrop();
-        }
-
-        @Override
-        public void dropActionChanged(DropTargetDragEvent e) {
-        }
-    };
 
 }

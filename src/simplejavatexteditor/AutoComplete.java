@@ -63,8 +63,8 @@ public class AutoComplete
         //Set the keywords
         words = al;
         kw = new SupportedKeywords();
-        brackets = kw.getBrackets();
-        bracketCompletions = kw.getBracketCompletions();
+        brackets = kw.getbrackets();
+        bracketCompletions = kw.getbracketCompletions();
 
         //Access the editor
         this.ui = ui;
@@ -161,18 +161,18 @@ public class AutoComplete
      *
      * @return the keywords
      */
-    private ArrayList<String> getKeywords() {
-        return words;
-    }
+    // private ArrayList<String> getKeywords() {
+    //     return words;
+    // }
 
     /**
      * So that these keywords can be modified or added to in the future.
      *
      * @param keyword the keyword to set
      */
-    private void setKeywords(String keyword) {
-        words.add(keyword);
-    }
+    // private void setKeywords(String keyword) {
+    //     words.add(keyword);
+    // }
 
     /**
      * Handles the auto complete suggestion
