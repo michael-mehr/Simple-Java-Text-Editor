@@ -55,7 +55,7 @@ public class UI extends JFrame implements ActionListener {
     private final JMenuBar menuBar;
     private final JComboBox<String> fontSize;
     private final JComboBox<String> fontType;
-    private final JMenu menuFile, menuEdit, menuFind, menuAbout;
+    private final JMenu menuFile, menuEdit, menuFind, menuAbout, menuCustomize;
     private final JMenuItem newFile, openFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
             aboutMe, aboutSoftware, wordWrap, changeBgColor, changeFgColor;
     private final JToolBar mainToolbar;
@@ -144,8 +144,10 @@ public class UI extends JFrame implements ActionListener {
         menuFile = new JMenu("File");
         menuEdit = new JMenu("Edit");
         menuFind = new JMenu("Search");
+        menuCustomize = new JMenu("Customize");
         menuAbout = new JMenu("About");
-        //Font Settings menu
+
+        // Font Settings menu
 
         // Set the Items Menu
         newFile = new JMenuItem("New", newIcon);
@@ -156,12 +158,14 @@ public class UI extends JFrame implements ActionListener {
         quickFind = new JMenuItem("Quick", searchIcon);
         aboutMe = new JMenuItem("About Me", aboutMeIcon);
         aboutSoftware = new JMenuItem("About Software", aboutIcon);
+        changeBgColor = new JMenuItem("Change Background Color");
+        changeFgColor = new JMenuItem("Change Foreground Color");
 
         menuBar = new JMenuBar();
         menuBar.add(menuFile);
         menuBar.add(menuEdit);
         menuBar.add(menuFind);
-
+        menuBar.add(menuCustomize);
         menuBar.add(menuAbout);
 
         this.setJMenuBar(menuBar);
@@ -226,6 +230,12 @@ public class UI extends JFrame implements ActionListener {
         wordWrap.setText("Word Wrap");
         wordWrap.setIcon(wordwrapIcon);
         wordWrap.setToolTipText("Word Wrap");
+
+        // Change Background & Foreground Colors
+        changeBgColor.addActionListener(this);
+        changeFgColor.addActionListener(this);
+        menuCustomize.add(changeBgColor);
+        menuCustomize.add(changeFgColor);
 
         //Short cut key or key stroke
         wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
