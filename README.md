@@ -34,4 +34,4 @@ java -jar SimpleJavaTextEditor.jar
 
 - Pierre-Henry Soria (Original Author) + contributors to his repo
 - Dr. Peter Lars Dordal
-- Boxicons
+- Boxicons, for providing the icons

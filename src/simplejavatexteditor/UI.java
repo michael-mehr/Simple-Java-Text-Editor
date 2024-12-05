@@ -510,8 +510,8 @@ public class UI extends JFrame implements ActionListener {
         } // If the source was the "new" file option
         else if (e.getSource() == newFile || e.getSource() == newButton) {
             if (edit) {
-                Object[] options = {"Save", "No Save", "Return"};
-                int n = JOptionPane.showOptionDialog(this, "Do you want to save the file at first ?", "Question",
+                Object[] options = {"Save", "Don't Save", "Cancel"};
+                int n = JOptionPane.showOptionDialog(this, "Would you like to save the current file before closing?", "Question",
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
                 if (n == 0) {// save
                     saveFile();
