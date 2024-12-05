@@ -76,15 +76,15 @@
 
     <!-- Ensure the icons directory is copied to the build directory -->
     <target name="-post-compile">
-        <copy todir="${build.classes.dir}/icons">
-            <fileset dir="${src.dir}/icons"/>
+        <copy todir="${build.classes.dir}/new-icons">
+            <fileset dir="${src.dir}/new-icons"/>
         </copy>
     </target>
 
     <!-- Ensure the icons directory is included in the JAR file -->
     <target name="-post-jar">
         <jar destfile="${dist.jar}" basedir="${build.classes.dir}">
-            <fileset dir="${build.classes.dir}/icons" includes="**/*"/>
+            <fileset dir="${build.classes.dir}/new-icons" includes="**/*"/>
         </jar>
     </target>
 </project>
