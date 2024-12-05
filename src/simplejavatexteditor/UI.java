@@ -57,10 +57,13 @@ public class UI extends JFrame implements ActionListener {
     private final JComboBox<String> fontType;
     private final JMenu menuFile, menuEdit, menuFind, menuAbout;
     private final JMenuItem newFile, openFile, saveFile, close, cut, copy, paste, clearFile, selectAll, quickFind,
-            aboutMe, aboutSoftware, wordWrap;
+            aboutMe, aboutSoftware, wordWrap, changeBgColor, changeFgColor;
     private final JToolBar mainToolbar;
     JButton newButton, openButton, saveButton, clearButton, quickButton, aboutMeButton, aboutButton, closeButton, boldButton, italicButton;
     private final Action selectAllAction;
+
+    //setup icons - application icon
+    private final ImageIcon appIcon = new ImageIcon(UI.class.getResource("/new-icons/notepad.png"));
 
     //setup icons - Bold and Italic
     private final ImageIcon boldIcon = new ImageIcon(UI.class.getResource("/new-icons/bold.png"));
@@ -98,10 +101,13 @@ public class UI extends JFrame implements ActionListener {
         setSize(800, 500);
 
         // Set the title of the window
-        setTitle("Untitled | " + SimpleJavaTextEditor.NAME);
+        setTitle("new | " + SimpleJavaTextEditor.NAME);
 
         // Set the default close operation (exit when it gets closed)
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Set a default icon for the window
+        setIconImage(appIcon.getImage());
 
         // center the frame on the monitor
         setLocationRelativeTo(null);
